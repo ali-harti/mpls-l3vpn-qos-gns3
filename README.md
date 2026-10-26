@@ -14,6 +14,29 @@ An operator backbone built in **GNS3** in three cumulative steps, each one measu
 | **Environment** | GNS3, Cisco 3725 routers (MPLS, LDP, BGP, VRF), VPCS clients |
 | **Report** | [`docs/`](docs/) (French) |
 
+## Real-World Context: Why This Project Exists
+
+### 1. The Real-World Need
+In Tier-1 Internet Service Provider (ISP) and telecommunications carrier networks, multiple enterprise customers (or distinct institutions) must share a single physical backbone infrastructure:
+- **Customer Isolation & Overlapping Address Spaces:** Independent corporate clients frequently use the exact same RFC 1918 private IP subnets (e.g., both Client A and Client B use `192.168.1.0/24`). Traditional IP routing cannot distinguish or isolate these routes without catastrophic routing collisions or data cross-contamination. 
+- **The SLA Cost of Virtualization:** Carrier-grade Service Level Agreements (SLAs) strictly dictate latency, jitter, and packet delivery guarantees. While **MPLS L3VPN** (using Virtual Routing and Forwarding — VRF) solves multi-tenant isolation, it introduces processing overhead: double-label encapsulation (transport label + VPN label) and route table lookups per VRF. Network architects need empirical data on the exact performance penalty of virtualization.
+- **Service Differentiation Across the Core:** Carrier backbones carry mixed traffic profiles—ranging from bulk file transfers and database backups to delay-sensitive voice (VoIP) and interactive applications. Without strict Quality of Service (QoS), bursty bulk traffic can degrade mission-critical flows.
+
+### 2. Why We Built This Lab
+The objective was to empirically answer a fundamental networking question: *What is the exact latency cost of adding client isolation via MPLS L3VPN, and can DiffServ QoS with Low Latency Queuing (LLQ) protect sensitive business traffic without incurring additional delay?*
+By engineering an emulated carrier core in GNS3 with Cisco 3725 routers, we executed a controlled, 3-step progressive benchmark:
+1. **Scenario 1 (Baseline):** Native MPLS with LDP and OSPF to establish baseline transport latency.
+2. **Scenario 2 (Isolation):** Adding MPLS L3VPN (VRFs, Route Distinguishers, Route Targets, and MP-BGP VPNv4) to measure the exact latency cost of tenant isolation.
+3. **Scenario 3 (Protection):** Implementing DiffServ classification, DSCP EF marking, and Low Latency Queuing (LLQ) to evaluate traffic shaping through the VPN.
+
+### 3. What Was Engineered
+- **Carrier Core Architecture:** Linear provider topology with Provider Edge (PE1, PE2) and Core Provider (P) routers running Cisco IOS.
+- **MPLS Transport Backbone:** Interior Gateway Protocol (OSPF Area 0) and Label Distribution Protocol (LDP) establishing label switched paths (LSPs).
+- **Multi-Tenant L3VPN Virtualization:** VRF instantiation with unique Route Distinguishers (RD) and Route Targets (RT) for BGP import/export policy enforcement.
+- **MP-BGP Peering:** BGP session carrying VPNv4 routes with 2-level MPLS label switching across the core.
+- **Modular QoS CLI (MQC):** Differentiated Services (DiffServ) architecture marking mission-critical traffic with DSCP EF and allocating dedicated 512 kbps priority queue bandwidth with LLQ.
+- **Reproducible Performance Analysis:** Measured latency datasets across scenarios with automated analysis scripts (`results/summarize.py`).
+
 ## Results at a glance
 
 | | Scenario 1: native MPLS | Scenario 2: L3VPN | Scenario 3: L3VPN + QoS |
