@@ -9,8 +9,7 @@ An operator backbone built in **GNS3** in three cumulative steps, each one measu
 | | |
 |---|---|
 | **Author** | Ali Harti |
-| **Supervisor** | Noureddine Badri |
-| **Programme** | Génie Informatique, engineering cycle, specialty Networks, Systems and Security (ISGA) |
+| **Programme** | Génie Informatique, engineering cycle, specialty Networks, Systems and Security |
 | **Academic year** | 2025/2026 |
 | **Environment** | GNS3, Cisco 3725 routers (MPLS, LDP, BGP, VRF), VPCS clients |
 | **Report** | [`docs/`](docs/) (French) |
@@ -156,4 +155,4 @@ In this project "VPN security" means logical isolation, not encryption. None of 
 
 ## Author
 
-Ali Harti, Groupe ISGA. Report supervised by Noureddine Badri.
+Ali Harti.
