@@ -1,0 +1,16 @@
+scenario,sample,rtt_ms,source
+1_native_mpls,1,91.9,report figure 15
+1_native_mpls,2,92.0,report figure 15
+1_native_mpls,3,98.8,report figure 15
+1_native_mpls,4,101.6,report figure 15
+1_native_mpls,5,73.6,report figure 15
+2_mpls_l3vpn,1,97.8,report figure 21
+2_mpls_l3vpn,2,100.4,report figure 21
+2_mpls_l3vpn,3,96.3,report figure 21
+2_mpls_l3vpn,4,97.1,report figure 21
+2_mpls_l3vpn,5,97.3,report figure 21
+3_mpls_l3vpn_qos,1,97.3,report figure 27 (first five replies of a 1000-packet ping)
+3_mpls_l3vpn_qos,2,97.7,report figure 27 (first five replies of a 1000-packet ping)
+3_mpls_l3vpn_qos,3,96.2,report figure 27 (first five replies of a 1000-packet ping)
+3_mpls_l3vpn_qos,4,97.2,report figure 27 (first five replies of a 1000-packet ping)
+3_mpls_l3vpn_qos,5,97.2,report figure 27 (first five replies of a 1000-packet ping)
